@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.codyer.tubo.widgets.WrapSlidingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/slidingDrawer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:content="@+id/bottomBars"
+    android:handle="@+id/layoutHandle"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@id/layoutHandle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center" >
+
+        <ImageButton
+            android:id="@+id/btHandle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/add_bt_selector"
+            android:contentDescription="@null" />
+    </LinearLayout>
+ <LinearLayout
+        android:id="@+id/bottomBars"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/pic_bar_bg" >
+
+            <Gallery
+                android:id="@+id/gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.codyer.tubo.widgets.MySeekBar
+                    android:id="@+id/imgSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    android:focusable="false"
+                    android:max="100"
+                    android:minHeight="15dp"                    
+                    android:maxHeight="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:progress="0"
+                    android:thumbOffset="0dip" 
+                    android:progressDrawable="@drawable/seekbar_img"
+                    android:thumb="@drawable/seek_thumb" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/imgbtPhoto"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:contentDescription="@null"
+                android:src="@drawable/photo_bt_selector" />
+
+            <ImageButton
+                android:id="@+id/imgbtCamera"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:contentDescription="@null"
+                android:src="@drawable/camera_bt_selector" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</com.codyer.tubo.widgets.WrapSlidingDrawer>

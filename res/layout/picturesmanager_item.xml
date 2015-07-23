@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="3dp"
+    android:paddingTop="3dp" >
+
+    <ImageView
+        android:id="@+id/scan_img"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/scan_select"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:padding="25dip"
+        android:contentDescription="@null"
+        android:src="@drawable/selected" />
+
+</RelativeLayout>

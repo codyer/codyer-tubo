@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circle="http://schemas.android.com/apk/res/com.codyer.tubo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tan"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tan"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/qa_bar"
+            android:orientation="horizontal"
+            android:paddingTop="5dp" >
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:contentDescription="@null"
+                android:src="@drawable/back_bt_selector" />
+
+            <TextView
+                android:id="@+id/details"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="@string/details"
+                android:textColor="@color/white"
+                android:textSize="30sp" />
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/numberListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/list_bg" >
+        </ListView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/main_popupwindow_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:visibility="invisible" >
+
+        <com.codyer.tubo.widgets.CircleLayout
+            android:id="@+id/main_circle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            circle:firstChildPosition="South"
+            circle:isRotating="true"
+            circle:rotateToCenter="true" >
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_contact_bt"
+                circle:name="@string/contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_contact_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_copy_bt"
+                circle:name="@string/copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_copy_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_edit_bt"
+                circle:name="@string/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_edit_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_dial_bt"
+                circle:name="@string/dial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_dial_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_message_bt"
+                circle:name="@string/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_message_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_setting_bt"
+                circle:name="@string/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_setting_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_web_bt"
+                circle:name="@string/web"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_web_bt_selector" />
+
+            <com.codyer.tubo.widgets.CircleImageView
+                android:id="@+id/ico_mail_bt"
+                circle:name="@string/mail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_mail_bt_selector" />
+        </com.codyer.tubo.widgets.CircleLayout>
+
+        <ImageButton
+            android:id="@+id/ico_cancel_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@null"
+            android:src="@drawable/ico_cancel_bt_selector" />
+    </RelativeLayout>
+
+</FrameLayout>
