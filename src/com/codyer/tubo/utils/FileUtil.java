@@ -3,6 +3,8 @@ package com.codyer.tubo.utils;
 import java.util.*;
 import java.io.*;
 
+import com.codyer.tubo.R;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -39,6 +41,46 @@ public class FileUtil {
 			}
 			fos.close();
 			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void copyStart(Context mContext) {
+		try {
+			// 图片存放全路径
+			File dir = new File(Constants.PICTURES_PATH);
+			// 如果文件夹不存在，创建一个（只能在应用包下面的目录，其他目录需要申请权限 OWL）
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			// 获得封装 文件的InputStream对象
+			int[] starts = { R.drawable.start1, R.drawable.start2,
+					R.drawable.start3, R.drawable.start4, R.drawable.start5, };
+			InputStream is;
+			FileOutputStream fos;
+			for (int i = 0; i < starts.length; i++) {
+
+				is = mContext.getResources().openRawResource(starts[i]);
+				File startFile = new File(dir, "start" + i + ".jpg");
+				if (!startFile.exists()) {
+					try {
+						startFile.createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				fos = new FileOutputStream(startFile);
+				byte[] buffer = new byte[8192];
+				int count = 0;
+
+				// 开始复制Logo图片文件
+				while ((count = is.read(buffer)) > 0) {
+					fos.write(buffer, 0, count);
+				}
+				fos.close();
+				is.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

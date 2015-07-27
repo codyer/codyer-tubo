@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.codyer.tubo.photos.PictureManagerActivity;
 import com.codyer.tubo.service.FileManagerService;
-import com.codyer.tubo.service.ShakeService;
+//import com.codyer.tubo.service.ShakeService;
 import com.codyer.tubo.utils.Constants;
 import com.codyer.tubo.utils.FileUtil;
 import com.codyer.tubo.utils.ImageUtils;
@@ -83,7 +85,18 @@ public class MainActivity extends Activity implements ViewFactory {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		Init();
-		startService(new Intent(this, ShakeService.class));
+		// startService(new Intent(this, ShakeService.class));
+	}
+
+	@Override
+	protected void onResume() {
+		List<Map<String, Object>> mList = FileUtil
+				.getFileList(Constants.PICTURES_PATH);
+
+		if ((mList == null) || (mList.size() == 0)) {
+			FileUtil.copyStart(MainActivity.this);
+		}
+		super.onResume();
 	}
 
 	private void Init() {
@@ -113,8 +126,10 @@ public class MainActivity extends Activity implements ViewFactory {
 
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							FileUtil.copyLogo(MainActivity.this , R.drawable.logo);
-							dialog.cancel();	
+							FileUtil.copyStart(MainActivity.this);
+							// FileUtil.copyLogo(MainActivity.this ,
+							// R.drawable.logo);
+							dialog.cancel();
 							MainActivity.this.finish();
 						}
 					});
@@ -123,7 +138,7 @@ public class MainActivity extends Activity implements ViewFactory {
 			e.printStackTrace();
 			return;
 		}
-		
+
 		// mHorListView.setAdapter(mImgAdapter);
 		mSwitchView.setFactory(this);
 		mSeekBar.setOnSeekBarChangeListener(new seekBarListener());
@@ -214,7 +229,8 @@ public class MainActivity extends Activity implements ViewFactory {
 		@Override
 		public boolean onItemLongClick(AdapterView<?> parent, View view,
 				int position, long id) {
-			Intent intent = new Intent(MainActivity.this, PictureManagerActivity.class);
+			Intent intent = new Intent(MainActivity.this,
+					PictureManagerActivity.class);
 			startActivity(intent);
 			return false;
 		}
@@ -311,13 +327,6 @@ public class MainActivity extends Activity implements ViewFactory {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
 	public View makeView() {
 
 		ImageView imgView = new ImageView(this);
@@ -394,7 +403,9 @@ public class MainActivity extends Activity implements ViewFactory {
 					if (imgContentTouchHelp.isDoubleClicked()) {
 						// double clicked
 						if (mCurrentUri == null) {
-							Toast.makeText(MainActivity.this, "Please choose a picture!", Toast.LENGTH_LONG).show();
+							Toast.makeText(MainActivity.this,
+									"Please choose a picture!",
+									Toast.LENGTH_LONG).show();
 						} else {
 							mCropImageUri = getTempUri();
 							cropImageUri(mCropImageUri, Constants.CROP_PHOTO);
@@ -429,7 +440,9 @@ public class MainActivity extends Activity implements ViewFactory {
 				case MotionEvent.ACTION_DOWN:
 					if (recViewTouchHelp.isDoubleClicked()) {
 						if (mCurrentUri == null) {
-							Toast.makeText(MainActivity.this, "Please choose a picture!", Toast.LENGTH_LONG).show();
+							Toast.makeText(MainActivity.this,
+									"Please choose a picture!",
+									Toast.LENGTH_LONG).show();
 						} else {
 							showLoadingWindow(null);
 						}
@@ -478,6 +491,7 @@ public class MainActivity extends Activity implements ViewFactory {
 				LoadingView.dismiss();
 				String result = msg.obj.toString();
 				result.replaceAll(" ", "");
+				result.replaceAll(" ", "‘");
 				if (result.equalsIgnoreCase("")) {
 					Log.e("TAG", "Failed . . .");
 				} else {
@@ -531,45 +545,45 @@ public class MainActivity extends Activity implements ViewFactory {
 		float imgTop = (float) (0.5 * ((float) mScreenHeight - ((float) opts.outHeight / be)));
 		float imgRight = (float) (0.5 * ((float) mScreenWidth + ((float) opts.outWidth / be)));
 		float imgBottom = (float) (0.5 * ((float) mScreenHeight + ((float) opts.outHeight / be)));
-		
-		float x0,y0,x1,y1;
+
+		float x0, y0, x1, y1;
 		if (mRecView.getLeft() < imgLeft) {
 			x0 = imgLeft;
-		}else if (mRecView.getLeft() > imgRight) {
+		} else if (mRecView.getLeft() > imgRight) {
 			x0 = imgRight;
-		}else {
+		} else {
 			x0 = mRecView.getLeft();
 		}
-		
+
 		if (mRecView.getTop() < imgTop) {
 			y0 = imgTop;
-		}else if (mRecView.getTop() > imgBottom) {
+		} else if (mRecView.getTop() > imgBottom) {
 			y0 = imgBottom;
-		}else {
+		} else {
 			y0 = mRecView.getTop();
 		}
-		
+
 		if (mRecView.getRight() < imgLeft) {
 			x1 = imgLeft;
-		}else if (mRecView.getRight() > imgRight) {
+		} else if (mRecView.getRight() > imgRight) {
 			x1 = imgRight;
-		}else {
+		} else {
 			x1 = mRecView.getRight();
 		}
-		
+
 		if (mRecView.getBottom() < imgTop) {
 			y1 = imgTop;
-		}else if (mRecView.getBottom() > imgBottom) {
+		} else if (mRecView.getBottom() > imgBottom) {
 			y1 = imgBottom;
-		}else {
+		} else {
 			y1 = mRecView.getBottom();
 		}
-		
+
 		int left = (int) (be * (x0 - imgLeft));
 		int top = (int) (be * (y0 - imgTop));
 		int right = (int) (be * (x1 - imgLeft));
 		int bottom = (int) (be * (y1 - imgTop));
-		
+
 		Rect r = new Rect(left, top, right, bottom);
 		if (r.width() < 1 || r.height() < 1) {
 			return "";
@@ -714,16 +728,21 @@ public class MainActivity extends Activity implements ViewFactory {
 	}
 
 	private void initFiles() {
+		List<Map<String, Object>> mList = FileUtil
+				.getFileList(Constants.PICTURES_PATH);
 		if (LoginUtils.isFirstLogin(this)) {
 			FileManagerService fileService = new FileManagerService(this);
 			fileService.copyFiles();
+		}
+		if ((mList == null) || (mList.size() == 0)) {
+			FileUtil.copyStart(MainActivity.this);
 		}
 	}
 
 	private void findViews() {
 		mSwitchView = (ImageSwitcher) findViewById(R.id.imgContent);
 		mRecView = (ImageView) findViewById(R.id.recView);
-		mBtSetting = (ImageView) findViewById(R.id.settingBt);		
+		mBtSetting = (ImageView) findViewById(R.id.settingBt);
 		slidingDrawer = (SlidingDrawer) findViewById(R.id.slidingDrawer_ref);
 		mBtHandle = (ImageButton) findViewById(R.id.btHandle);
 		mSeekBar = (MySeekBar) findViewById(R.id.imgSeekBar);

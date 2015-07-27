@@ -3,6 +3,7 @@ package com.codyer.tubo.photos;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.codyer.tubo.R;
 import com.codyer.tubo.photos.ImageAdapter.ViewHolder;
 import com.codyer.tubo.utils.Constants;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class PictureManagerActivity extends Activity {
 	private List<LoadImage> selectFileLs = new ArrayList<LoadImage>(); // 保存选中的图片信息
 
 	private boolean isEditMode = false; // 是否正在长按状态
+	private ImageButton backBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class PictureManagerActivity extends Activity {
 		editBtLayout = (LinearLayout) findViewById(R.id.pic_edit);
 		deleteButton = (Button) findViewById(R.id.pic_delete);
 		cancelButton = (Button) findViewById(R.id.pic_cancel);
+		backBtn = (ImageButton) findViewById(R.id.back);
+		backBtn.setOnClickListener(mClickListener);
 		deleteButton.setOnClickListener(mClickListener);
 		cancelButton.setOnClickListener(mClickListener);
 
@@ -145,6 +150,8 @@ public class PictureManagerActivity extends Activity {
 			case R.id.pic_cancel:
 				cancelDelete();
 				break;
+			case R.id.back:
+				finish();
 			default:
 				break;
 			}			

@@ -18,7 +18,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.text.ClipboardManager;
-import android.view.Menu;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -38,6 +38,7 @@ public class ResultActivity extends Activity {
 	private Uri uri;
 	private ImageButton mCancelBt;
 	private RelativeLayout mPopupWindowLayout;
+	private ImageButton mBackBt;
 
 	@SuppressLint("CutPasteId")
 	@Override
@@ -54,15 +55,17 @@ public class ResultActivity extends Activity {
 		mCancelBt = (ImageButton) findViewById(R.id.ico_cancel_bt);
 		mPopupWindowLayout = (RelativeLayout) findViewById(R.id.main_popupwindow_layout);
 
+		mBackBt = (ImageButton) findViewById(R.id.back);
 		Intent intent = getIntent();
 		String result = intent.getStringExtra("result");
 		// 生成一个ArrayList类型的变量list
 		mListItem = new ArrayList<HashMap<String, String>>();
-		
+
 		BufferedReader rdr = new BufferedReader(new StringReader(result));
 		int i = 1;
 		try {
-			for (String line = rdr.readLine(); line != null; line = rdr.readLine()) {
+			for (String line = rdr.readLine(); line != null; line = rdr
+					.readLine()) {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("numberId", "(" + i++ + ")");
 				map.put("number", line);
@@ -78,6 +81,13 @@ public class ResultActivity extends Activity {
 				new int[] { R.id.numberId, R.id.number });
 		// 设置显示ListView
 		mList.setAdapter(mListAdapter);
+		mBackBt.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		mCancelBt.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -96,20 +106,12 @@ public class ResultActivity extends Activity {
 		});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.result, menu);
-		return true;
-	}
-
 	private class CricleClickListener implements OnItemSelectedListener,
 			OnItemClickListener {
 		@Override
 		public void onItemSelected(View view, int position, long id, String name) {
 
-			Toast.makeText(getApplicationContext(),
-					"position="+position,
+			Toast.makeText(getApplicationContext(), "position=" + position,
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -121,8 +123,8 @@ public class ResultActivity extends Activity {
 				intent.setPackage("com.android.contacts");
 				intent.putExtra(SearchManager.QUERY, mCurrentString);
 				intent.setAction(Intent.ACTION_SEARCH);
-//				intent.setAction(Intent.ACTION_GET_CONTENT);
-//				intent.setType("vnd.android.cursor.item/phone");
+				// intent.setAction(Intent.ACTION_GET_CONTENT);
+				// intent.setType("vnd.android.cursor.item/phone");
 				startActivity(intent);
 				break;
 			case R.id.ico_copy_bt:
@@ -136,9 +138,9 @@ public class ResultActivity extends Activity {
 				break;
 			case R.id.ico_edit_bt:
 				// 不需要权限，跳转到"拔号"中。
-				 Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri
-				 .parse("tel:" + mCurrentString));
-				 startActivity(callIntent);
+				Intent callIntent = new Intent(Intent.ACTION_DIAL,
+						Uri.parse("tel:" + mCurrentString));
+				startActivity(callIntent);
 				break;
 			case R.id.ico_dial_bt:
 				intent.setAction(Intent.ACTION_CALL);
@@ -173,5 +175,21 @@ public class ResultActivity extends Activity {
 			}
 		}
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			if (mPopupWindowLayout.getVisibility() == View.INVISIBLE) {
+				mBackBt.performClick();
+			} else {
+				mCancelBt.performClick();
+			}
+			return true;
+		default:
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

@@ -56,11 +56,11 @@ public class ImageUtils {
 
 		bmp = bmp.copy(Bitmap.Config.ARGB_8888, false);
 		baseApi.setImage(bmp);
-
+//		String value = "18173119669";
 		String value = baseApi.getUTF8Text();
 		Log.d(Constants.TAG, " the value is ===> " + value);
 		baseApi.clear();
-		// baseApi.end();
+//		 baseApi.end();
 		return value;
 	}
 
